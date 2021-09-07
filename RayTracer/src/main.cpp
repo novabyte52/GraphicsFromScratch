@@ -22,6 +22,17 @@ int main(int argc, char* args[])
     spheres.push_back(Sphere(Vec3(0, -1, 3), 1, Color(255, 0, 0)));
     spheres.push_back(Sphere(Vec3(2, 0, 4), 1, Color(0, 0, 255)));
     spheres.push_back(Sphere(Vec3(-2, 0, 4), 1, Color(0, 255, 0)));
+    // Big yellow sphere
+    spheres.push_back(Sphere(Vec3(0, -5001, 0), 5000, Color(255, 255, 0)));
+
+    // Populating a vector with test lights to render
+    Light ambient = Light(0.2);
+    PointLight point = PointLight(Vec3(2, 1, 0), 0.6);
+    DirectionalLight dir = DirectionalLight(Vec3(1, 4, 4), 0.2);
+    std::vector<Light*> lights;
+    lights.push_back(&ambient);
+    lights.push_back(&point);
+    lights.push_back(&dir);
 
     Camera cam = Camera();
 
@@ -37,7 +48,7 @@ int main(int argc, char* args[])
 
             // Determine the color seen through that square on the viewport
             // Hard coding viewCoord as direction since cam position is 0
-            Uint32 color = cam.traceRay(1, canvas, spheres);
+            Uint32 color = cam.traceRay(1, canvas, spheres, lights);
 
             // Paint the pixel of the canvas with that color
             canvas->putPixel(x, y, color);

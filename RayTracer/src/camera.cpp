@@ -1,6 +1,6 @@
 #include "camera.hpp"
 
-Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> spheres)
+Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> spheres, std::vector<Light*> lights)
 {
     double closestStep = Camera::max_d;
     Sphere* closestSphere = NULL;
@@ -26,6 +26,12 @@ Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> sphe
         return canvas->encodeColor(255, 255, 255);
     }
 
+    Vec3 P = Camera::position + Camera::direction * closestStep;
+    Vec3 N = P - closestSphere->origin;
+    N = N / N.length();
+    closestSphere->color.r = closestSphere->color.r * computeLighting(P, N, lights);
+    closestSphere->color.g = closestSphere->color.g * computeLighting(P, N, lights);
+    closestSphere->color.b = closestSphere->color.b * computeLighting(P, N, lights);
     return canvas->encodeColor(closestSphere->color);
 }
 
@@ -48,4 +54,30 @@ double* Camera::intersectRaySphere(Sphere* sphere)
 
     results = new double[2] {(-b + sqrt(discriminant)) / (2 * a), (-b - sqrt(discriminant)) / (2 * a)};
     return results;
+}
+
+double Camera::computeLighting(Vec3 point, Vec3 normal, std::vector<Light*> lights)
+{
+    double intensity = 0;
+    for (int i = 0; i < lights.size(); i++)
+    {
+        // If direction is (0, 0, 0) then it's ambient
+        // Polymorphism ensures the correct direction function is called in any other case
+        Vec3 L = lights[i]->getDirection(point);
+        if (L.equals(Vec3(0, 0, 0)))
+        {
+            intensity += lights[i]->intensity;
+        }
+        else
+        {
+            double n_dot_1 = normal.dot(L);
+
+            if (n_dot_1 > 0)
+            {
+                intensity += lights[i]->intensity * n_dot_1/(normal.length() * L.length());
+            }
+        }
+    }
+
+    return intensity;
 }

@@ -11,7 +11,7 @@ Canvas::Canvas(int screen_width, int screen_height)
     {
         // Create window
         Canvas::_window = SDL_CreateWindow(
-            "SDL Tutorial",
+            "Computer Graphics From Scratch",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
             screen_width,

@@ -52,10 +52,12 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/camera.o
 GENERATED += $(OBJDIR)/canvas.o
+GENERATED += $(OBJDIR)/light.o
 GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/vec3.o
 OBJECTS += $(OBJDIR)/camera.o
 OBJECTS += $(OBJDIR)/canvas.o
+OBJECTS += $(OBJDIR)/light.o
 OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/vec3.o
 
@@ -125,6 +127,9 @@ $(OBJDIR)/camera.o: src/camera.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/canvas.o: src/canvas.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/light.o: src/light.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
