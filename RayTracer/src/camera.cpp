@@ -29,9 +29,11 @@ Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> sphe
     Vec3 P = Camera::position + Camera::direction * closestStep;
     Vec3 N = P - closestSphere->origin;
     N = N / N.length();
-    closestSphere->color.r = closestSphere->color.r * computeLighting(P, N, lights);
-    closestSphere->color.g = closestSphere->color.g * computeLighting(P, N, lights);
-    closestSphere->color.b = closestSphere->color.b * computeLighting(P, N, lights);
+    Vec3 negativeDir = -1 * Camera::direction;
+    closestSphere->color.r = closestSphere->color.r * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
+    closestSphere->color.g = closestSphere->color.g * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
+    closestSphere->color.b = closestSphere->color.b * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
+    closestSphere->color.clamp();
     return canvas->encodeColor(closestSphere->color);
 }
 
@@ -41,6 +43,8 @@ double* Camera::intersectRaySphere(Sphere* sphere)
     double r = sphere->radius;
     Vec3 CO = Vec3(Camera::position.x - sphere->origin.x, Camera::position.y - sphere->origin.y, Camera::position.z - sphere->origin.z);
 
+    // May need to look at the first section and actually pass a direction
+    // instead of modifying the cameras direction
     double a = Camera::direction.dot(Camera::direction);
     double b = 2 * CO.dot(Camera::direction);
     double c = CO.dot(CO) - (r * r);
@@ -56,7 +60,7 @@ double* Camera::intersectRaySphere(Sphere* sphere)
     return results;
 }
 
-double Camera::computeLighting(Vec3 point, Vec3 normal, std::vector<Light*> lights)
+double Camera::computeLighting(Vec3 point, Vec3 normal, Vec3 view, int spec, std::vector<Light*> lights)
 {
     double intensity = 0;
     for (int i = 0; i < lights.size(); i++)
@@ -70,11 +74,22 @@ double Camera::computeLighting(Vec3 point, Vec3 normal, std::vector<Light*> ligh
         }
         else
         {
-            double n_dot_1 = normal.dot(L);
-
-            if (n_dot_1 > 0)
+            // Diffuse
+            double n_dot_l = normal.dot(L);
+            if (n_dot_l > 0)
             {
-                intensity += lights[i]->intensity * n_dot_1/(normal.length() * L.length());
+                intensity += lights[i]->intensity * n_dot_l/(normal.length() * L.length());
+            }
+
+            // Specular
+            if (spec != -1)
+            {
+                Vec3 R = 2 * normal * normal.dot(L) - L;
+                double r_dot_v = R.dot(view);
+                if (r_dot_v > 0)
+                {
+                    intensity += lights[i]->intensity * pow(r_dot_v / (R.length() * view.length()), spec);
+                }
             }
         }
     }

@@ -93,10 +93,16 @@ Vec3 operator*(Vec3 lhs, const Vec3& rhs)
     return lhs;
 }
 
-Vec3 operator*(Vec3& lhs, double rhs)
+Vec3 operator*(Vec3 lhs, double rhs)
 {
     lhs *= rhs;
     return lhs;
+}
+
+Vec3 operator*(double lhs, Vec3& rhs)
+{
+    rhs *= lhs;
+    return rhs;
 }
 
 Vec3& Vec3::operator/=(const Vec3& rhs)

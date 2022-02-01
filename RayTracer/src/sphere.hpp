@@ -9,6 +9,8 @@ public:
     Vec3 origin;
     double radius;
     Color color;
+    int spec; // Specular exponent
 
-    Sphere(Vec3 origin, double radius, Color color): origin(origin), radius(radius), color(color) {};
+    Sphere(Vec3 origin, double radius, Color color, int spec)
+        :origin(origin), radius(radius), color(color), spec(spec) {};
 };

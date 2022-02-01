@@ -19,11 +19,11 @@ int main(int argc, char* args[])
 
     // Populating a vector with test spheres to render
     std::vector<Sphere> spheres;
-    spheres.push_back(Sphere(Vec3(0, -1, 3), 1, Color(255, 0, 0)));
-    spheres.push_back(Sphere(Vec3(2, 0, 4), 1, Color(0, 0, 255)));
-    spheres.push_back(Sphere(Vec3(-2, 0, 4), 1, Color(0, 255, 0)));
+    spheres.push_back(Sphere(Vec3(0, -1, 3), 1, Color(255, 0, 0), 500));
+    spheres.push_back(Sphere(Vec3(2, 0, 4), 1, Color(0, 0, 255), 500));
+    spheres.push_back(Sphere(Vec3(-2, 0, 4), 1, Color(0, 255, 0), 10));
     // Big yellow sphere
-    spheres.push_back(Sphere(Vec3(0, -5001, 0), 5000, Color(255, 255, 0)));
+    spheres.push_back(Sphere(Vec3(0, -5001, 0), 5000, Color(255, 255, 0), 1000));
 
     // Populating a vector with test lights to render
     Light ambient = Light(0.2);

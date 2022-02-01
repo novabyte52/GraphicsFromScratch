@@ -4,6 +4,7 @@
 #include <vector>
 #include <typeinfo>
 #include <string>
+#include <bits/stdc++.h>
 
 #include "vec3.hpp"
 #include "sphere.hpp"
@@ -23,5 +24,5 @@ public:
 
     Uint32 traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> spheres, std::vector<Light*> lights);
     double* intersectRaySphere(Sphere* sphere);
-    double computeLighting(Vec3 point, Vec3 normal, std::vector<Light*> lights);
+    double computeLighting(Vec3 point, Vec3 normal, Vec3 view, int spec, std::vector<Light*> lights);
 };

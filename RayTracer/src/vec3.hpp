@@ -30,7 +30,8 @@ public:
     Vec3& operator*=(const Vec3& rhs);
     Vec3& operator*=(double rhs);
     friend Vec3 operator*(Vec3 lhs, const Vec3& rhs);
-    friend Vec3 operator*(Vec3& lhs, double rhs);
+    friend Vec3 operator*(Vec3 lhs, double rhs);
+    friend Vec3 operator*(double lhs, Vec3& rhs);
     
     Vec3& operator/=(const Vec3& rhs);
     Vec3& operator/=(double rhs);
