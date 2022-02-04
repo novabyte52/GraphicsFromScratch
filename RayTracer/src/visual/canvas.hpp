@@ -2,8 +2,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "color.hpp"
-#include "vec3.hpp"
+#include "../resource/color.hpp"
+#include "../math/vec3.hpp"
 #include "viewport.hpp"
 
 class Canvas

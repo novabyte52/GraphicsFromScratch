@@ -6,9 +6,9 @@
 #include <string>
 #include <bits/stdc++.h>
 
-#include "vec3.hpp"
-#include "sphere.hpp"
-#include "light.hpp"
+#include "../math/vec3.hpp"
+#include "../object/sphere.hpp"
+#include "../object/light.hpp"
 #include "canvas.hpp"
 
 class Camera

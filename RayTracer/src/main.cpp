@@ -3,11 +3,11 @@
 #include <math.h>
 #include <vector>
 
-#include "canvas.hpp"
-#include "camera.hpp"
-#include "vec3.hpp"
-#include "color.hpp"
-#include "sphere.hpp"
+#include "visual/canvas.hpp"
+#include "visual/camera.hpp"
+#include "math/vec3.hpp"
+#include "resource/color.hpp"
+#include "object/sphere.hpp"
 
 int main(int argc, char* args[])
 {
