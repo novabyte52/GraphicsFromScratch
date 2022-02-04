@@ -33,5 +33,5 @@ Behavior will change as I develop.
   ```
 - Premake5
   - Download `premake5` from [here](https://premake.github.io/download)
-  - Place in a directory called `vendor/bin/premake/premake5`
-    (this is important for VSCode tasks)
+  - Place in a directory called `vendor/bin/premake/premake5`  
+  (this is important for VSCode tasks)
