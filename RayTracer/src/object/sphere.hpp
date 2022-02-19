@@ -6,11 +6,12 @@
 class Sphere
 {
 public:
+    std::string name;
     Vec3 origin;
     double radius;
     Color color;
     int spec; // Specular exponent
 
-    Sphere(Vec3 origin, double radius, Color color, int spec)
-        :origin(origin), radius(radius), color(color), spec(spec) {};
+    Sphere(std::string name, Vec3 origin, double radius, Color color, int spec)
+        :name(name), origin(origin), radius(radius), color(color), spec(spec) {};
 };
