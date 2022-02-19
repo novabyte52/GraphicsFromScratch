@@ -19,7 +19,9 @@ project "RayTracer"
     files
     {
         "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**/**.hpp",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**/**.cpp",
     }
 
     links
