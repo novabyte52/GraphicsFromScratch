@@ -23,6 +23,7 @@ public:
         : position(position), direction(direction), max_d(maxRenderDistance) {};
 
     Uint32 traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> spheres, std::vector<Light*> lights);
+    void closestIntersection(double stepMin, std::vector<Sphere> spheres, double* closestStep, Sphere** closestSphere);
     double* intersectRaySphere(Sphere* sphere);
     double computeLighting(Vec3 point, Vec3 normal, Vec3 view, int spec, std::vector<Light*> lights);
 };

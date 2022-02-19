@@ -3,25 +3,11 @@
 Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> spheres, std::vector<Light*> lights)
 {
     double closestStep = Camera::max_d;
-    Sphere* closestSphere = NULL;
+    Sphere* closestSphere = nullptr;
 
-    for (int i = 0; i < spheres.size(); i++)
-    {
-        double* steps = intersectRaySphere(&spheres[i]);
-        if ((steps[0] < Camera::max_d && steps[0] > stepMin) && steps[0] < closestStep)
-        {
-            closestStep = steps[0];
-            closestSphere = &spheres[i];
-        }
+    closestIntersection(stepMin, spheres, &closestStep, &closestSphere);
 
-        if ((steps[1] < Camera::max_d && steps[1] > stepMin) && steps[1] < closestStep)
-        {
-            closestStep = steps[1];
-            closestSphere = &spheres[i];
-        }
-    }
-
-    if (closestSphere == NULL)
+    if (closestSphere == nullptr)
     {
         return canvas->encodeColor(255, 255, 255);
     }
@@ -30,11 +16,31 @@ Uint32 Camera::traceRay(double stepMin, Canvas* canvas, std::vector<Sphere> sphe
     Vec3 N = P - closestSphere->origin;
     N = N / N.length();
     Vec3 negativeDir = -1 * Camera::direction;
+    
     closestSphere->color.r = closestSphere->color.r * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
     closestSphere->color.g = closestSphere->color.g * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
     closestSphere->color.b = closestSphere->color.b * computeLighting(P, N, Vec3(0, 0, -1), closestSphere->spec, lights);
     closestSphere->color.clamp();
     return canvas->encodeColor(closestSphere->color);
+}
+
+void Camera::closestIntersection(double stepMin, std::vector<Sphere> spheres, double* closestStep, Sphere** closestSphere)
+{
+    for (int i = 0; i < spheres.size(); i++)
+    {
+        double* steps = intersectRaySphere(&spheres[i]);
+        if ((steps[0] < Camera::max_d && steps[0] > stepMin) && steps[0] < *closestStep)
+        {
+            *closestStep = steps[0];
+            *closestSphere = &spheres[i];
+        }
+
+        if ((steps[1] < Camera::max_d && steps[1] > stepMin) && steps[1] < *closestStep)
+        {
+            *closestStep = steps[1];
+            *closestSphere = &spheres[i];
+        }
+    }
 }
 
 double* Camera::intersectRaySphere(Sphere* sphere)
